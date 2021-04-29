@@ -216,7 +216,10 @@ class TRIM(object):
             # Make sure compatible with Windows, OSX, and Linux
             # If 'wine' command exists use it to launch TRIM
             if distutils.spawn.find_executable("wine"):
-                subprocess.check_call(['wine', str(os.path.join('.', 'TRIM.exe'))])
+                if distutils.spawn.find_executable("xvfb-run"):
+                    subprocess.check_call(['xvfb-run', '-a', 'wine', str(os.path.join('.', 'TRIM.exe'))])
+                else:
+                    subprocess.check_call(['wine', str(os.path.join('.', 'TRIM.exe'))])
             else:
                 subprocess.check_call([str(os.path.join('.', 'TRIM.exe'))])
             os.chdir(current_directory)
@@ -310,7 +313,10 @@ class SR(object):
             # Make sure compatible with Windows, OSX, and Linux
             # If 'wine' command exists use it to launch TRIM
             if distutils.spawn.find_executable("wine"):
-                subprocess.check_call(['wine', str(os.path.join('.', 'SRModule.exe'))])
+                if distutils.spawn.find_executable('xvfb-run'):
+                    subprocess.check_call(['xvfb-run', '-a', 'wine', str(os.path.join('.', 'SRModule.exe'))])
+                else:
+                    subprocess.check_call(['wine', str(os.path.join('.', 'SRModule.exe'))])
             else:
                 subprocess.check_call([str(os.path.join('.', 'SRModule.exe'))])
 
